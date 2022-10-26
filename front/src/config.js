@@ -1,3 +1,3 @@
 export const apiUrl = 'http://localhost:8000';
 export const facebookAppId = '1173344116866876';
-export const googleClientId = '968306197446-7v11ok6h7o5tmleojfjc336c3ik2tu4o.apps.googleusercontent.com';
+export const googleClientId = '810927471031-ctcpjrs72eki7sejs8pcad6s8qdc9td6.apps.googleusercontent.com';

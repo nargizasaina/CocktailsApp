@@ -16,6 +16,7 @@ const UserSchema = new Schema({
         },
     },
     facebookId: String,
+    googleId: String,
     token: {
         type: String,
         required: true

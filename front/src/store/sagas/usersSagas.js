@@ -24,7 +24,7 @@ export function* facebookLoginUserSaga({payload: userData}) {
 export function* googleLoginUserSaga({payload: userData}) {
     try{
         console.log(userData);
-        const response = yield axiosApi.post('/users/googleLogin', {token: userData.token});
+        const response = yield axiosApi.post('/users/googleLogin', {token: userData.tokenId});
         yield put(loginSuccess(response.data.user));
         yield put(addNotification('Google Login Successful', 'success'));
         yield put(historyPush('/'));

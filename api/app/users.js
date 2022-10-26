@@ -34,7 +34,7 @@ router.post('/facebookLogin', async (req, res) => {
         }
 
         user.generateToken();
-        user.save;
+        user.save();
         return res.send({message: 'Login or register successful!', user});
     } catch (e) {
         return res.status(401).send({message: 'Facebook token incorrect!'});

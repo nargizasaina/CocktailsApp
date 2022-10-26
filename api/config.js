@@ -13,6 +13,6 @@ module.exports = {
         appSecret: process.env.FACEBOOK_APP_SECRET,
     },
     google: {
-        clientId: '968306197446-7v11ok6h7o5tmleojfjc336c3ik2tu4o.apps.googleusercontent.com',
+        clientId: '810927471031-ctcpjrs72eki7sejs8pcad6s8qdc9td6.apps.googleusercontent.com',
     }
 };
