@@ -15,10 +15,7 @@ const UserSchema = new Schema({
             message: 'The user is already registered!',
         },
     },
-    googleId: {
-        required: true,
-        type: String
-    },
+    facebookId: String,
     token: {
         type: String,
         required: true
