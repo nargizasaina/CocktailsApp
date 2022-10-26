@@ -33,7 +33,7 @@ const UserSchema = new Schema({
         default: 'user',
         enum: ['admin', 'user']
     },
-    avatarImage: String
+    avatar: String
 });
 
 UserSchema.methods.generateToken = function () {
