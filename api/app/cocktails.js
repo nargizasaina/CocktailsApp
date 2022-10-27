@@ -22,22 +22,21 @@ const storage = multer.diskStorage({
 const upload = multer({storage});
 
 router.get('/', auth, async (req, res) => {
-  let cocktails;
-  if (req.user.role === 'user') {
-    cocktails = await Cocktail
-      .find({'addedBy': req.user._id})
-      .populate('addedBy', 'displayName')
-      .populate({
-        path: 'ratings',
-        populate: {
-          path: 'user',
-          select: 'displayName'
-        }
-      });
-    res.send(cocktails);
-  } else if (req.user.role === 'admin') {
+  // if (req.user.role === 'user') {
+  //   cocktails = await Cocktail
+  //     .find({'addedBy': req.user._id})
+  //     .populate('addedBy', 'displayName')
+  //     .populate({
+  //       path: 'ratings',
+  //       populate: {
+  //         path: 'user',
+  //         select: 'displayName'
+  //       }
+  //     });
+  //   res.send(cocktails);
+  // } else if (req.user.role === 'admin') {
     try {
-      cocktails = await Cocktail
+      const cocktails = await Cocktail
         .find()
         .populate('addedBy', 'displayName')
         .populate({
@@ -51,7 +50,7 @@ router.get('/', auth, async (req, res) => {
     } catch (e) {
       res.sendStatus(500);
     }
-  }
+  // }
 });
 
 router.post('/' , auth, upload.single('image'), async (req, res) => {

@@ -10,6 +10,7 @@ import {
 export function* fetchAllCocktails() {
     try{
         const response = yield axiosApi('/cocktails');
+        console.log(response);
         yield put(fetchAllCocktailsSuccess(response.data));
     } catch (e) {
         yield put(fetchAllCocktailsFailure(e.response.data));
