@@ -4,7 +4,12 @@ import {addNotification} from "../actions/notifyActions";
 import {
     fetchAllCocktailsFailure,
     fetchAllCocktailsRequest,
-    fetchAllCocktailsSuccess, fetchCocktailFailure, fetchCocktailRequest, fetchCocktailSuccess
+    fetchAllCocktailsSuccess,
+    fetchCocktailFailure,
+    fetchCocktailRequest,
+    fetchCocktailSuccess,
+    fetchMyCocktailsFailure, fetchMyCocktailsRequest,
+    fetchMyCocktailsSuccess
 } from "../actions/cocktailsActions";
 
 export function* fetchAllCocktails() {
@@ -20,7 +25,6 @@ export function* fetchAllCocktails() {
 export function* fetchCocktail({payload: id}) {
     try{
         const response = yield axiosApi('/cocktails/' + id);
-        console.log(response);
         yield put(fetchCocktailSuccess(response.data));
     } catch (e) {
         yield put(fetchCocktailFailure(e.response.data));
@@ -28,9 +32,21 @@ export function* fetchCocktail({payload: id}) {
     }
 }
 
+export function* fetchMyCocktails() {
+    try{
+        const response = yield axiosApi('/cocktails?addedBy=user');
+        console.log(response);
+        yield put(fetchMyCocktailsSuccess(response.data));
+    } catch (e) {
+        yield put(fetchMyCocktailsFailure(e.response.data));
+        yield put(addNotification('Fetch my Cocktails failed!', 'error'));
+    }
+}
+
 const cocktailSagas = [
     takeEvery(fetchAllCocktailsRequest, fetchAllCocktails),
-    takeEvery(fetchCocktailRequest, fetchCocktail)
+    takeEvery(fetchCocktailRequest, fetchCocktail),
+    takeEvery(fetchMyCocktailsRequest, fetchMyCocktails)
 ];
 
 export default cocktailSagas;

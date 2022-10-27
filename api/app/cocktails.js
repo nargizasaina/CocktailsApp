@@ -22,35 +22,37 @@ const storage = multer.diskStorage({
 const upload = multer({storage});
 
 router.get('/', auth, async (req, res) => {
-  // if (req.user.role === 'user') {
-  //   cocktails = await Cocktail
-  //     .find({'addedBy': req.user._id})
-  //     .populate('addedBy', 'displayName')
-  //     .populate({
-  //       path: 'ratings',
-  //       populate: {
-  //         path: 'user',
-  //         select: 'displayName'
-  //       }
-  //     });
-  //   res.send(cocktails);
-  // } else if (req.user.role === 'admin') {
-    try {
-      const cocktails = await Cocktail
-        .find()
-        .populate('addedBy', 'displayName')
-        .populate({
-          path: 'ratings',
-          populate: {
-            path: 'user',
-            select: 'displayName'
-          }
-        });
-      res.send(cocktails);
+   try {
+      if (req.query.addedBy) {
+        console.log(req.user);
+        const cocktails = await Cocktail
+            .find({'addedBy': req.user._id})
+            .populate('addedBy', 'displayName')
+            .populate({
+              path: 'ratings',
+              populate: {
+                path: 'user',
+                select: 'displayName'
+              }
+            });
+          res.send(cocktails);
+      } else {
+        console.log('all');
+        const cocktails = await Cocktail
+            .find()
+            .populate('addedBy', 'displayName')
+            .populate({
+              path: 'ratings',
+              populate: {
+                path: 'user',
+                select: 'displayName'
+              }
+            });
+        res.send(cocktails);
+      }
     } catch (e) {
       res.sendStatus(500);
     }
-  // }
 });
 
 router.get('/:id', auth, async (req, res) => {

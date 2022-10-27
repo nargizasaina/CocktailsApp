@@ -5,6 +5,7 @@ import {useSelector} from "react-redux";
 import Login from "./containers/Login/Login";
 import CocktailBuilder from "./containers/CocktailBuilder/CocktailBuilder";
 import CocktailPage from "./containers/CocktailPage/CocktailPage";
+import MyCocktails from "./containers/MyCocktails/MyCocktails";
 
 const ProtectedRoute = ({isAllowed, redirectTo, ...props}) => {
     return isAllowed ?
@@ -28,6 +29,12 @@ const App = () => {
                     isAllowed={user}
                     path="/cocktails/:id"
                     exact component={CocktailPage}
+                    redirectTo="/login"
+                />
+                <ProtectedRoute
+                    isAllowed={user}
+                    path="/my_cocktails"
+                    exact component={MyCocktails}
                     redirectTo="/login"
                 />
                 <Route path="/login" component={Login}/>

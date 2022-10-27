@@ -10,7 +10,7 @@ const CocktailPage = ({match}) => {
 
     useEffect(() => {
         dispatch(fetchCocktailRequest(match.params.id));
-    }, [dispatch]);
+    }, [dispatch, match.params.id]);
 
     return ((user?.role === 'user' && cocktail?.publish) || user?.role === 'admin') && (
         <Box maxWidth="700px" margin="0 auto">

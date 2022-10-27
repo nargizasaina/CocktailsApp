@@ -25,6 +25,19 @@ const cocktailsSlice = createSlice({
             state.error = action.payload;
         },
 
+        fetchMyCocktailsRequest(state) {
+            state.loading = true;
+            state.error = null;
+        },
+        fetchMyCocktailsSuccess(state, {payload: cocktails}) {
+            state.loading = false;
+            state.myCocktails = cocktails;
+        },
+        fetchMyCocktailsFailure(state, action) {
+            state.loading = false;
+            state.error = action.payload;
+        },
+
         fetchCocktailRequest(state) {
             state.loading = true;
             state.error = null;

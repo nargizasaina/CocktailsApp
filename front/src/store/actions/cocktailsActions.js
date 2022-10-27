@@ -6,5 +6,8 @@ export const {
     fetchAllCocktailsFailure,
     fetchCocktailRequest,
     fetchCocktailSuccess,
-    fetchCocktailFailure
+    fetchCocktailFailure,
+    fetchMyCocktailsRequest,
+    fetchMyCocktailsSuccess,
+    fetchMyCocktailsFailure
 } = cocktailsSlices.actions;
