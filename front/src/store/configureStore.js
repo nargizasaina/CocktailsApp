@@ -5,9 +5,11 @@ import {configureStore, getDefaultMiddleware} from "@reduxjs/toolkit";
 import axiosApi from "../axiosApi";
 import rootSagas from "./rootSagas";
 import usersSlice, {initialState} from "./slices/usersSlices";
+import cocktailsSlice from "./slices/cocktailsSlices";
 
 const rootReducer = combineReducers({
     users: usersSlice.reducer,
+    cocktails: cocktailsSlice.reducer
 });
 
 const persistedState = loadFromLocalStorage();
