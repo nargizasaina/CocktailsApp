@@ -8,4 +8,11 @@ module.exports = {
         db: 'mongodb://localhost/cocktailsApp',
         options: {useNewUrlParser: true}
     },
+    facebook: {
+        appId: '1173344116866876',
+        appSecret: process.env.FACEBOOK_APP_SECRET,
+    },
+    google: {
+        clientId: '810927471031-ctcpjrs72eki7sejs8pcad6s8qdc9td6.apps.googleusercontent.com',
+    }
 };

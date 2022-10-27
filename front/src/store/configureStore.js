@@ -4,9 +4,10 @@ import {loadFromLocalStorage, saveToLocalStorage} from "./localStorage";
 import {configureStore, getDefaultMiddleware} from "@reduxjs/toolkit";
 import axiosApi from "../axiosApi";
 import rootSagas from "./rootSagas";
+import usersSlice, {initialState} from "./slices/usersSlices";
 
 const rootReducer = combineReducers({
-    // users: usersSlice.reducer,
+    users: usersSlice.reducer,
 });
 
 const persistedState = loadFromLocalStorage();
@@ -28,16 +29,16 @@ sagaMiddleware.run(rootSagas);
 
 store.subscribe(() => {
     saveToLocalStorage({
-        // users: {
-        //     ...initialState,
-        //     user: store.getState().users.user,
-        // }
+        users: {
+            ...initialState,
+            user: store.getState().users.user,
+        }
     })
 });
 
 axiosApi.interceptors.request.use(config => {
     try{
-        // config.headers['Authorization'] = store.getState().users.user.token;
+        config.headers['Authorization'] = store.getState().users.user.token;
     } catch (e) {}
     return config;
 });
