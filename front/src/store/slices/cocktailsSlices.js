@@ -5,6 +5,7 @@ const name = 'cocktails';
 const cocktailsSlice = createSlice({
     name,
     initialState : {
+        cocktail: null,
         allCocktails: [],
         myCocktails: [],
         loading: false,
@@ -20,6 +21,19 @@ const cocktailsSlice = createSlice({
             state.allCocktails = cocktails;
         },
         fetchAllCocktailsFailure(state, action) {
+            state.loading = false;
+            state.error = action.payload;
+        },
+
+        fetchCocktailRequest(state) {
+            state.loading = true;
+            state.error = null;
+        },
+        fetchCocktailSuccess(state, {payload: cocktail}) {
+            state.loading = false;
+            state.cocktail = cocktail;
+        },
+        fetchCocktailFailure(state, action) {
             state.loading = false;
             state.error = action.payload;
         },

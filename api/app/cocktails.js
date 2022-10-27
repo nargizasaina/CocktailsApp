@@ -53,6 +53,28 @@ router.get('/', auth, async (req, res) => {
   // }
 });
 
+router.get('/:id', auth, async (req, res) => {
+  try {
+    const cocktail = await Cocktail
+        .findById(req.params.id)
+        .populate('addedBy', 'displayName')
+        .populate({
+          path: 'ratings',
+          populate: {
+            path: 'user',
+            select: 'displayName'
+          }
+        });
+
+    if (!cocktail) {
+      res.status(404).send({message: 'Cocktail is not found!'})
+    }
+    res.send(cocktail);
+  } catch (e) {
+    res.sendStatus(500);
+  }
+});
+
 router.post('/' , auth, upload.single('image'), async (req, res) => {
   const {title, recipe, ingredients} = req.body;
 
@@ -75,15 +97,6 @@ router.post('/' , auth, upload.single('image'), async (req, res) => {
     res.send(cocktail);
   } catch (e) {
     res.status(400).send({error: e.errors});
-  }
-});
-
-router.delete('/:id', auth, permit('admin'), async (req, res) => {
-  try {
-    await Cocktail.deleteOne({_id: req.params.id});
-    res.send({message: 'Item has been deleted'})
-  } catch (e) {
-    res.sendStatus(500);
   }
 });
 
@@ -118,7 +131,13 @@ router.put('/:id/rate', auth, async (req, res) => {
   }
 });
 
-
-
+router.delete('/:id', auth, permit('admin'), async (req, res) => {
+  try {
+    await Cocktail.deleteOne({_id: req.params.id});
+    res.send({message: 'Item has been deleted'})
+  } catch (e) {
+    res.sendStatus(500);
+  }
+});
 
 module.exports = router;

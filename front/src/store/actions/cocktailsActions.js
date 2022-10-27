@@ -3,5 +3,8 @@ import cocktailsSlices from "../slices/cocktailsSlices";
 export const {
     fetchAllCocktailsRequest,
     fetchAllCocktailsSuccess,
-    fetchAllCocktailsFailure
+    fetchAllCocktailsFailure,
+    fetchCocktailRequest,
+    fetchCocktailSuccess,
+    fetchCocktailFailure
 } = cocktailsSlices.actions;

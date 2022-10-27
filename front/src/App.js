@@ -4,6 +4,7 @@ import {Redirect, Route, Switch} from "react-router-dom";
 import {useSelector} from "react-redux";
 import Login from "./containers/Login/Login";
 import CocktailBuilder from "./containers/CocktailBuilder/CocktailBuilder";
+import CocktailPage from "./containers/CocktailPage/CocktailPage";
 
 const ProtectedRoute = ({isAllowed, redirectTo, ...props}) => {
     return isAllowed ?
@@ -21,6 +22,12 @@ const App = () => {
                     isAllowed={user}
                     path="/"
                     exact component={CocktailBuilder}
+                    redirectTo="/login"
+                />
+                <ProtectedRoute
+                    isAllowed={user}
+                    path="/cocktails/:id"
+                    exact component={CocktailPage}
                     redirectTo="/login"
                 />
                 <Route path="/login" component={Login}/>

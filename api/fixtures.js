@@ -20,7 +20,7 @@ const run = async () => {
         role: 'user',
         displayName: 'User'
     }, {
-        email: 'admin@gmail.com',
+        email: '666nargiza@mail.ru',
         token: nanoid(),
         role: 'admin',
         displayName: 'Admin'
