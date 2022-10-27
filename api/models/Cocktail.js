@@ -7,6 +7,18 @@ const IngredientSchema = new Schema({
     amount: String
 });
 
+const RatingSchema = new Schema({
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+    },
+    rating: {
+        type: Number,
+        min: 1,
+        max: 5
+    }
+});
+
 const CocktailSchema = new Schema({
     title: {
         type: String,
@@ -32,7 +44,8 @@ const CocktailSchema = new Schema({
         type: String,
         required: true,
     },
-    ingredients: [IngredientSchema]
+    ingredients: [IngredientSchema],
+    ratings: [RatingSchema]
 });
 
 CocktailSchema.plugin(uniqueValidator, {message: 'Error, expected {PATH} to be unique'});
