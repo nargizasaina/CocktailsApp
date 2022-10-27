@@ -6,6 +6,7 @@ import Login from "./containers/Login/Login";
 import CocktailBuilder from "./containers/CocktailBuilder/CocktailBuilder";
 import CocktailPage from "./containers/CocktailPage/CocktailPage";
 import MyCocktails from "./containers/MyCocktails/MyCocktails";
+import NewCocktail from "./containers/NewCocktail/NewCocktail";
 
 const ProtectedRoute = ({isAllowed, redirectTo, ...props}) => {
     return isAllowed ?
@@ -36,6 +37,12 @@ const App = () => {
                     path="/my_cocktails"
                     exact component={MyCocktails}
                     redirectTo="/login"
+                />
+                <ProtectedRoute
+                    isAllowed={user}
+                    path="/new_cocktail"
+                    exact component={NewCocktail}
+                    redirectTo="/new_cocktail"
                 />
                 <Route path="/login" component={Login}/>
             </Switch>

@@ -2,6 +2,7 @@ import axiosApi from "../../axiosApi";
 import {put, takeEvery} from "redux-saga/effects";
 import {addNotification} from "../actions/notifyActions";
 import {
+    createCocktailFailure, createCocktailRequest,
     fetchAllCocktailsFailure,
     fetchAllCocktailsRequest,
     fetchAllCocktailsSuccess,
@@ -43,10 +44,21 @@ export function* fetchMyCocktails() {
     }
 }
 
+export function* createCocktail({payload: cocktailData}) {
+    console.log(cocktailData, 'DATA')
+    try {
+        yield axiosApi.post('/cocktails', cocktailData);
+    } catch (e) {
+        yield put(createCocktailFailure(e.response.data));
+        yield put(addNotification('Create new Cocktail failed!', 'error'));
+    }
+}
+
 const cocktailSagas = [
     takeEvery(fetchAllCocktailsRequest, fetchAllCocktails),
     takeEvery(fetchCocktailRequest, fetchCocktail),
-    takeEvery(fetchMyCocktailsRequest, fetchMyCocktails)
+    takeEvery(fetchMyCocktailsRequest, fetchMyCocktails),
+    takeEvery(createCocktailRequest, createCocktail),
 ];
 
 export default cocktailSagas;

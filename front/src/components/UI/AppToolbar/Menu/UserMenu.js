@@ -23,10 +23,16 @@ const UserMenu = ({user}) => {
     return (
         <Box display="flex" justifyContent="space-between" alignItems="center" paddingTop={1}>
             {user.role === 'user' &&
+              <>
                 <Button component={Link} to="/my_cocktails" color="inherit"
                         sx={{marginRight: '20px'}}>
                     My cocktails
                 </Button>
+                <Button component={Link} to="/new_cocktail" color="inherit"
+                sx={{marginRight: '20px'}}>
+                New cocktails
+                </Button>
+              </>
             }
             <Box
                 sx={{
