@@ -6,11 +6,11 @@ import {createCocktailRequest} from "../../store/actions/cocktailsActions";
 
 const NewCocktail = () => {
   const dispatch = useDispatch();
-  const error = useSelector(state => state.cocktails.error)
+  const error = useSelector(state => state.cocktails.error);
 
   const onCocktailFormSubmit = cocktailData => {
     dispatch(createCocktailRequest(cocktailData));
-  }
+  };
   return (
     <Grid container>
       <Grid item xs={12}>

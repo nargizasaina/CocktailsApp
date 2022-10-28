@@ -73,7 +73,7 @@ const CocktailForm = ({onSubmit, error}) => {
 
   const getFieldError = fieldName => {
     try {
-      return error.errors[fieldName].message;
+      return `${error.error} ${[fieldName]}`;
     } catch {
       return undefined;
     }
@@ -112,7 +112,7 @@ const CocktailForm = ({onSubmit, error}) => {
               onChange={e => inputChangeHandlerIng(e, index)}
               value={ing.title}
               name="title"
-              error={getFieldError('ingredients')}
+              error={getFieldError('ingredient title')}
             />
           </Grid>
           <Grid item container xs={4}>
@@ -121,7 +121,7 @@ const CocktailForm = ({onSubmit, error}) => {
               onChange={e => inputChangeHandlerIng(e, index)}
               value={ing.amount}
               name="amount"
-              error={getFieldError('ingredients')}
+              error={getFieldError('amount')}
             />
           </Grid>
           {ingredient.length > 1 ?
@@ -143,6 +143,8 @@ const CocktailForm = ({onSubmit, error}) => {
             value={cocktailState.recipe}
             onChange={inputChangeHandler}
             name="recipe"
+            error={Boolean(error)}
+            helperText={getFieldError('recipe')}
             fullWidth
         />
       </Grid>

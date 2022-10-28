@@ -54,7 +54,6 @@ export function* fetchMyCocktails() {
 }
 
 export function* createCocktail({payload: cocktailData}) {
-    console.log(cocktailData, 'DATA')
     try {
         yield axiosApi.post('/cocktails', cocktailData);
         yield put(createCocktailSuccess());
