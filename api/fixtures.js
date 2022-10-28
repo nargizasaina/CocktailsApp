@@ -18,12 +18,14 @@ const run = async () => {
         email: 'user@gmail.com',
         token: nanoid(),
         role: 'user',
-        displayName: 'User'
+        displayName: 'User',
+        password: 'user'
     }, {
-        email: 'nargizasaina@gmail.com',
+        email: 'admin@gmail.com',
         token: nanoid(),
         role: 'admin',
-        displayName: 'Admin'
+        displayName: 'Admin',
+        password: 'admin'
     });
 
     await Cocktail.create({

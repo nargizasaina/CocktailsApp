@@ -1,7 +1,7 @@
 import {combineReducers} from "redux";
 import createSagaMiddleware from "redux-saga";
 import {loadFromLocalStorage, saveToLocalStorage} from "./localStorage";
-import {configureStore, getDefaultMiddleware} from "@reduxjs/toolkit";
+import {configureStore} from "@reduxjs/toolkit";
 import axiosApi from "../axiosApi";
 import rootSagas from "./rootSagas";
 import usersSlice, {initialState} from "./slices/usersSlices";
@@ -15,14 +15,9 @@ const rootReducer = combineReducers({
 const persistedState = loadFromLocalStorage();
 const sagaMiddleware = createSagaMiddleware();
 
-const middleware = [
-    ...getDefaultMiddleware(),
-    sagaMiddleware
-];
-
 const store = configureStore({
     reducer: rootReducer,
-    middleware,
+    middleware: [sagaMiddleware],
     devTools: true,
     preloadedState: persistedState
 });

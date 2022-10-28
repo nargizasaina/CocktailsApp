@@ -23,10 +23,9 @@ const upload = multer({storage});
 
 router.get('/', auth, async (req, res) => {
    try {
-      if (req.query.addedBy) {
-        console.log(req.user);
+      if (req.user.role === 'user') {
         const cocktails = await Cocktail
-            .find({'addedBy': req.user._id})
+            .find({publish: true})
             .populate('addedBy', 'displayName')
             .populate({
               path: 'ratings',
@@ -36,8 +35,7 @@ router.get('/', auth, async (req, res) => {
               }
             });
           res.send(cocktails);
-      } else {
-        console.log('all');
+      } else if (req.user.role === 'admin') {
         const cocktails = await Cocktail
             .find()
             .populate('addedBy', 'displayName')
@@ -53,6 +51,24 @@ router.get('/', auth, async (req, res) => {
     } catch (e) {
       res.sendStatus(500);
     }
+});
+
+router.get('/my_cocktails', auth, async (req, res) => {
+  try {
+      const cocktails = await Cocktail
+          .find({'addedBy': req.user._id})
+          .populate('addedBy', 'displayName')
+          .populate({
+            path: 'ratings',
+            populate: {
+              path: 'user',
+              select: 'displayName'
+            }
+          });
+      res.send(cocktails);
+  } catch (e) {
+    res.sendStatus(500);
+  }
 });
 
 router.get('/:id', auth, async (req, res) => {

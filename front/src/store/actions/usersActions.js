@@ -1,9 +1,10 @@
 import usersSlice from "../slices/usersSlices";
 
 export const {
-    facebookLoginRequest,
-    googleLoginRequest,
+    loginRequest,
     loginSuccess,
     loginFailure,
+    facebookLoginRequest,
+    googleLoginRequest,
     logoutRequest
 } = usersSlice.actions;

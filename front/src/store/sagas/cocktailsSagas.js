@@ -1,8 +1,8 @@
 import axiosApi from "../../axiosApi";
 import {put, takeEvery} from "redux-saga/effects";
-import {addNotification} from "../actions/notifyActions";
+import {addNotification} from "../actions/notifierActions";
 import {
-    createCocktailFailure, createCocktailRequest,
+    createCocktailFailure, createCocktailRequest, createCocktailSuccess,
     fetchAllCocktailsFailure,
     fetchAllCocktailsRequest,
     fetchAllCocktailsSuccess,
@@ -19,7 +19,7 @@ export function* fetchAllCocktails() {
         yield put(fetchAllCocktailsSuccess(response.data));
     } catch (e) {
         yield put(fetchAllCocktailsFailure(e.response.data));
-        yield put(addNotification('Fetch Cocktails failed!', 'error'));
+        yield put(addNotification({message: 'Fetch Cocktails failed!', variant: 'error'}));
     }
 }
 
@@ -29,18 +29,18 @@ export function* fetchCocktail({payload: id}) {
         yield put(fetchCocktailSuccess(response.data));
     } catch (e) {
         yield put(fetchCocktailFailure(e.response.data));
-        yield put(addNotification('Fetch Cocktail failed!', 'error'));
+        yield put(addNotification({message: 'Fetch Cocktail failed!', variant: 'error'}));
     }
 }
 
 export function* fetchMyCocktails() {
     try{
-        const response = yield axiosApi('/cocktails?addedBy=user');
+        const response = yield axiosApi('/cocktails/my_cocktails');
         console.log(response);
         yield put(fetchMyCocktailsSuccess(response.data));
     } catch (e) {
         yield put(fetchMyCocktailsFailure(e.response.data));
-        yield put(addNotification('Fetch my Cocktails failed!', 'error'));
+        yield put(addNotification({message: 'Fetch my Cocktails failed!', variant: 'error'}));
     }
 }
 
@@ -48,9 +48,10 @@ export function* createCocktail({payload: cocktailData}) {
     console.log(cocktailData, 'DATA')
     try {
         yield axiosApi.post('/cocktails', cocktailData);
+        yield put(createCocktailSuccess());
     } catch (e) {
         yield put(createCocktailFailure(e.response.data));
-        yield put(addNotification('Create new Cocktail failed!', 'error'));
+        yield put(addNotification({message: 'Create new Cocktail failed!', variant: 'error'}));
     }
 }
 

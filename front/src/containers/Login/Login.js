@@ -1,62 +1,118 @@
-import React from 'react';
-import {useDispatch} from "react-redux";
-import GoogleLoginButton from "react-google-login";
-import FacebookLoginButton from 'react-facebook-login/dist/facebook-login-render-props';
-import {Box, Button} from "@mui/material";
-import FacebookIcon from '@mui/icons-material/Facebook';
-import {Google} from "@mui/icons-material";
-import {facebookAppId, googleClientId} from "../../config";
-import {facebookLoginRequest, googleLoginRequest} from "../../store/actions/usersActions";
+import React, {useState} from 'react';
+import {makeStyles} from "tss-react/mui";
+import {Alert, Avatar, Container, Grid, Typography} from "@mui/material";
+import {LockOpenOutlined} from "@mui/icons-material";
+import {useDispatch, useSelector} from "react-redux";
+import ButtonWithProgress from "../../components/UI/ButtonWithProgress/ButtonWithProgress";
+import FacebookLogin from "../../components/FacebookLogin/FacebookLogin";
+import GoogleLogin from "../../components/GoogleLogin/GoogleLogin";
+import InputField from "../../components/UI/Form/InputField/InputField";
+import {loginRequest} from "../../store/actions/usersActions";
+
+const useStyles = makeStyles()(theme => ({
+    paper: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    avatar: {
+        margin: theme.spacing(1),
+        backgroundColor: `${theme.palette.success.main} !important`,
+    },
+    submit: {
+        margin: `${theme.spacing(0, 0, 4)} !important`,
+    },
+    alert: {
+        margin: theme.spacing(3, 0),
+        width: '100%',
+    },
+}));
 
 const Login = () => {
-    const dispatch = useDispatch();
+    const { classes } = useStyles();
 
-    const facebookResponse = response => {
-        dispatch(facebookLoginRequest(response));
+    const dispatch = useDispatch();
+    const error = useSelector(state => state.users.error);
+    const loading = useSelector(state => state.users.loading);
+
+    const [user, setUser] = useState({
+        email: '',
+        password: '',
+    });
+
+    const inputChangeHandler = e => {
+        const {name, value} = e.target;
+        setUser(prev => ({...prev, [name]: value}));
     };
 
-    const googleResponse = response => {
-        console.log(response);
-        dispatch(googleLoginRequest(response));
+    const submitFormHandler = e => {
+        e.preventDefault();
+        dispatch(loginRequest({...user}));
     };
 
     return (
-        <Box width="250px" margin=" 100px auto">
-            <GoogleLoginButton
-                clientId={googleClientId}
-                cookiePolicy={'single_host_origin'}
-                onSuccess={googleResponse}
-                render={props => (
-                    <Button
-                        fullWidth
-                        variant="contained"
-                        color="secondary"
-                        startIcon={<Google/>}
-                        onClick={props.onClick}
-                        sx={{marginBottom: '20px'}}
-                    >
-                        Log in with Google
-                    </Button>
+        <Container maxWidth="xs">
+            <div className={classes.paper}>
+                <Avatar className={classes.avatar}>
+                    <LockOpenOutlined/>
+                </Avatar>
+                <Typography component="h1" variant="h6">
+                    Sign in
+                </Typography>
+
+                {error && (
+                    <Alert severity="error" className={classes.alert}>
+                        Error! {error.message}
+                    </Alert>
                 )}
-            />
-            <FacebookLoginButton
-                appId={facebookAppId}
-                fields="name,email,picture"
-                callback={facebookResponse}
-                render={props => (
-                    <Button
-                        sx={{marginBottom: '12px'}}
-                        fullWidth
-                        color="primary"
-                        variant="contained"
-                        startIcon={<FacebookIcon/>}
-                        onClick={props.onClick}
-                    >
-                        Enter with Facebook
-                    </Button>
-                )}
-            />
-        </Box>
+
+                <Grid
+                    component="form"
+                    onSubmit={submitFormHandler}
+                    container
+                    spacing={2}
+                >
+                    <InputField
+                        required={true}
+                        label="Email"
+                        name="email"
+                        value={user.email}
+                        onChange={inputChangeHandler}
+                    />
+
+                    <InputField
+                        type="password"
+                        required={true}
+                        label="Password"
+                        name="password"
+                        value={user.password}
+                        onChange={inputChangeHandler}
+                    />
+
+                    <Grid item xs={12}>
+                        <ButtonWithProgress
+                            loading={loading}
+                            disabled={loading}
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="success"
+                            className={classes.submit}
+                        >
+                            Sign In
+                        </ButtonWithProgress>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                        <FacebookLogin/>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                        <GoogleLogin/>
+                    </Grid>
+                </Grid>
+            </div>
+        </Container>
     );
 };
 

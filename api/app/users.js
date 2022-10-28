@@ -6,6 +6,24 @@ const axios = require("axios");
 const client = new OAuth2Client(config.google.clientId);
 const router = express.Router();
 
+router.post('/sessions', async (req, res) => {
+    const user = await User.findOne({email: req.body.email});
+    console.log(req.body);
+    if (!user) {
+        return res.status(401).send({message: 'Credentials are wrong!'});
+    }
+
+    const isMatch = await user.checkPassword(req.body.password);
+
+    if (!isMatch) {
+        return res.status(401).send({message: 'Credentials are wrong!'});
+    }
+
+    user.generateToken();
+    await user.save({validateBeforeSave: false});
+    res.send({message: 'Username and password correct!', user});
+});
+
 router.post('/facebookLogin', async (req, res) => {
     const inputToken = req.body.accessToken;
     const accessToken = config.facebook.appId + '|' + config.facebook.appSecret;
@@ -34,7 +52,7 @@ router.post('/facebookLogin', async (req, res) => {
         }
 
         user.generateToken();
-        user.save();
+        user.save({validateBeforeSave: false});
         return res.send({message: 'Login or register successful!', user});
     } catch (e) {
         return res.status(401).send({message: 'Facebook token incorrect!'});
@@ -65,7 +83,7 @@ router.post('/googleLogin', async (req, res) => {
         }
 
         user.generateToken();
-        await user.save();
+        await user.save({validateBeforeSave: false});
 
         res.send({message: 'Login or register successful!', user});
     } catch (e) {
@@ -84,7 +102,7 @@ router.delete('/sessions', async (req, res) => {
     if (!user) return res.send(success);
 
     user.generateToken();
-    await user.save();
+    await user.save({validateBeforeSave: false});
 
     return res.send({success, user});
 });

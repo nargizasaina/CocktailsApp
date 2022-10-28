@@ -12,11 +12,7 @@ const usersSlice = createSlice({
     name,
     initialState,
     reducers: {
-        googleLoginRequest(state) {
-            state.loading = true;
-            state.error = null;
-        },
-        facebookLoginRequest(state) {
+        loginRequest(state) {
             state.loading = true;
             state.error = null;
         },
@@ -27,6 +23,15 @@ const usersSlice = createSlice({
         loginFailure(state, action) {
             state.loading = false;
             state.error = action.payload;
+        },
+
+        googleLoginRequest(state) {
+            state.loading = true;
+            state.error = null;
+        },
+        facebookLoginRequest(state) {
+            state.loading = true;
+            state.error = null;
         },
 
         logoutRequest(state) {
