@@ -19,7 +19,7 @@ import {
     fetchMyCocktailsSuccess,
     publishCocktailFailure,
     publishCocktailRequest,
-    publishCocktailSuccess
+    publishCocktailSuccess, rateCocktailFailure, rateCocktailRequest, rateCocktailSuccess
 } from "../actions/cocktailsActions";
 import {historyPush, historyReplace} from "../actions/historyActions";
 
@@ -90,6 +90,22 @@ export function* deleteCocktail({payload: id}) {
     }
 }
 
+export function* rateCocktail({payload}) {
+    try {
+
+        const rateData = {
+            rating: payload.rate
+        };
+
+        yield axiosApi.put('/cocktails/' + payload.id + '/rate', rateData);
+        yield put(rateCocktailSuccess());
+        yield put(addNotification({message: 'Cocktail is rated successfully!', variant: 'success'}));
+    } catch (e) {
+        yield put(rateCocktailFailure(e.response.data));
+        yield put(addNotification({message: 'Cocktail rate failed!', variant: 'error'}));
+    }
+}
+
 const cocktailSagas = [
     takeEvery(fetchAllCocktailsRequest, fetchAllCocktails),
     takeEvery(fetchCocktailRequest, fetchCocktail),
@@ -97,6 +113,7 @@ const cocktailSagas = [
     takeEvery(createCocktailRequest, createCocktail),
     takeEvery(publishCocktailRequest, publishCocktail),
     takeEvery(deleteCocktailRequest, deleteCocktail),
+    takeEvery(rateCocktailRequest, rateCocktail)
 ];
 
 export default cocktailSagas;

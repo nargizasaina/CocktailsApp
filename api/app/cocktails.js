@@ -138,10 +138,9 @@ router.put('/:id/rate', auth, async (req, res) => {
 
   try {
     await Cocktail.updateOne({
-      _id: req.params.id,
-      ratings: {$elemMatch: {user: req.user._id}}
+      _id: req.params.id
     }, {
-      $set: {'ratings.$.rating': rating}
+      $addToSet: {ratings: {user: req.user._id, rating: rating}}
     });
     res.send({message: 'Item has been rated'});
   } catch (e) {

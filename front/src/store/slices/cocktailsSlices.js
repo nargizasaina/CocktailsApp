@@ -87,6 +87,18 @@ const cocktailsSlice = createSlice({
             state.error = action.payload;
         },
 
+        rateCocktailRequest(state) {
+            state.loading = true;
+            state.error = null;
+        },
+        rateCocktailSuccess(state) {
+            state.loading = false;
+        },
+        rateCocktailFailure(state, action) {
+            state.loading = false;
+            state.error = action.payload;
+        },
+
     }
 });
 

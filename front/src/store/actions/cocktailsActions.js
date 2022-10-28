@@ -18,5 +18,8 @@ export const {
     publishCocktailFailure,
     deleteCocktailRequest,
     deleteCocktailSuccess,
-    deleteCocktailFailure
+    deleteCocktailFailure,
+    rateCocktailRequest,
+    rateCocktailSuccess,
+    rateCocktailFailure
 } = cocktailsSlices.actions;

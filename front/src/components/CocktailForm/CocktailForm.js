@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Grid, TextareaAutosize, TextField} from "@mui/material";
+import {Button, Grid, TextField} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import InputField from "../UI/Form/InputField/InputField";
 import FileInput from "../UI/Form/FileInput/FileInput";
@@ -145,15 +145,6 @@ const CocktailForm = ({onSubmit, error}) => {
             name="recipe"
             fullWidth
         />
-        {/*<TextareaAutosize*/}
-        {/*  aria-label="Recipe textarea"*/}
-        {/*  name="recipe"*/}
-        {/*  value={cocktailState.recipe}*/}
-        {/*  minRows={10}*/}
-        {/*  onChange={inputChangeHandler}*/}
-        {/*  placeholder="Your recipe"*/}
-        {/*  style={{ width: '100%', padding: '10px', borderRadius: '5px' , background: 'transparent'}}*/}
-        {/*/>*/}
       </Grid>
 
       <Grid item>

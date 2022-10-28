@@ -5,7 +5,7 @@ import {deleteCocktailRequest, publishCocktailRequest} from "../../store/actions
 import Spinner from "../UI/Spinner/Spinner";
 import {apiUrl} from "../../config";
 
-const CocktailCard = (props) => {
+const CocktailCard = ({cocktail, rating}) => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.users.user);
     const loading = useSelector(state => state.cocktails.loading);
@@ -20,26 +20,26 @@ const CocktailCard = (props) => {
 
     return loading
             ? <Spinner/>
-            : props.cocktail && (
+            : cocktail && (
             <Box maxWidth="700px" margin="0 auto 10px">
                 <Card>
                     <Box sx={{ display: 'flex'}}>
                         <CardMedia
                             component="img"
                             sx={{ width: 250 }}
-                            image={apiUrl + '/' + props.cocktail.image}
+                            image={apiUrl + '/' + cocktail.image}
                             alt="Cocktail"
                         />
                         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                             <CardContent sx={{ flex: '1 0 auto' }}>
                                 <Typography component="div" variant="h5">
-                                    <strong>{props.cocktail.title}</strong>
+                                    <strong>{cocktail.title}</strong>
                                 </Typography>
                                 <Typography variant="subtitle1" color="text.primary" component="div" marginTop="10px">
                                     <b>Ingredients</b>
                                 </Typography>
                                 <ul style={{padding: '0 20px', fontSize: '14px', margin:0}}>
-                                    {props.cocktail.ingredients.map(ing => (
+                                    {cocktail.ingredients.map(ing => (
                                         <li key={ing._id}>
                                             {ing.title}: {ing.amount}
                                         </li>
@@ -49,7 +49,7 @@ const CocktailCard = (props) => {
                         </Box>
                         {user?.role === 'admin' &&
                             <Box alignSelf="flex-start" marginLeft="auto" marginRight="5px">
-                                {!props.cocktail.publish &&
+                                {cocktail.publish &&
                                     <>
                                         <Typography variant="subtitle1" color="text.secondary" component="div" marginTop="10px">
                                             Unpublished!
@@ -59,7 +59,7 @@ const CocktailCard = (props) => {
                                             type="button"
                                             color="success"
                                             variant="contained"
-                                            onClick={() => onPublish(props.cocktail._id)}
+                                            onClick={() => onPublish(cocktail._id)}
                                         >
                                             Publish
                                         </Button>
@@ -71,7 +71,7 @@ const CocktailCard = (props) => {
                                         type="button"
                                         color="error"
                                         variant="contained"
-                                        onClick={() => onDelete(props.cocktail._id)}
+                                        onClick={() => onDelete(cocktail._id)}
                                     >
                                         Delete
                                     </Button>
@@ -84,17 +84,26 @@ const CocktailCard = (props) => {
                             <b>Recipe</b>
                         </Typography>
                         <p style={{fontSize: '14px', margin: 0}}>
-                            {props.cocktail.recipe}
+                            {cocktail.recipe}
                         </p>
                         <Typography variant="subtitle1" color="text.primary" component="div" marginTop="10px">
                             <b>
-                            Rating: {props.cocktail.ratings.length > 0 &&
-                                props.cocktail.ratings.reduce((prev, curr) => (prev.rating + curr.rating) / props.cocktail.ratings.length)}
-                            </b> ({props.cocktail.ratings.length} votes)
+                            Rating: {cocktail.ratings.length > 0 &&
+                              Math.floor(
+                                cocktail.ratings.reduce((prev, curr) => (prev + curr.rating), 0) / cocktail.ratings.length * 100
+                              ) / 100}
+                            </b> ({cocktail.ratings.length} votes)
+                        </Typography>
+                        <Typography variant="subtitle1" color="text.primary" component="div" marginTop="10px">
+                            <b>Your rating:</b>
+                            <div>
+                                {rating}
+                            </div>
+
                         </Typography>
                         {user?.role === 'admin' &&
                             <Typography variant="subtitle1" color="text.secondary" component="div" marginTop="10px">
-                                Cocktail was added by: {props.cocktail.addedBy.displayName}
+                                Cocktail was added by: {cocktail.addedBy.displayName}
                             </Typography>
                         }
                     </Box>
