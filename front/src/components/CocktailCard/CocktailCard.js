@@ -1,9 +1,19 @@
 import React from 'react';
 import {Box, Button, Card, CardContent, CardMedia, Typography} from "@mui/material";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {deleteCocktailRequest, publishCocktailRequest} from "../../store/actions/cocktailsActions";
 
 const CocktailCard = (props) => {
+    const dispatch = useDispatch();
     const user = useSelector(state => state.users.user);
+
+    const onPublish = id => {
+        dispatch(publishCocktailRequest(id));
+    };
+
+    const onDelete = id => {
+        dispatch(deleteCocktailRequest(id));
+    };
 
     return props.cocktail && (
         <Box maxWidth="700px" margin="0 auto">
@@ -39,11 +49,27 @@ const CocktailCard = (props) => {
                                     <Typography variant="subtitle1" color="text.secondary" component="div" marginTop="10px">
                                         Unpublished!
                                     </Typography>
-                                    <Button fullWidth type="button" color="success" variant="contained" >Publish</Button>
+                                    <Button
+                                        fullWidth
+                                        type="button"
+                                        color="success"
+                                        variant="contained"
+                                        onClick={() => onPublish(props.cocktail._id)}
+                                    >
+                                        Publish
+                                    </Button>
                                 </>
                             }
                             <Box marginTop="15px">
-                                <Button fullWidth type="button" color="error" variant="contained">Delete</Button>
+                                <Button
+                                    fullWidth
+                                    type="button"
+                                    color="error"
+                                    variant="contained"
+                                    onClick={() => onDelete(props.cocktail._id)}
+                                >
+                                    Delete
+                                </Button>
                             </Box>
                         </Box>
                     }

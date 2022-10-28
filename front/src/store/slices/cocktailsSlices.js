@@ -50,6 +50,7 @@ const cocktailsSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
+
         createCocktailRequest(state) {
             state.loading = true;
             state.error = null;
@@ -60,7 +61,31 @@ const cocktailsSlice = createSlice({
         createCocktailFailure(state, action) {
             state.loading = false;
             state.error = action.payload;
-        }
+        },
+
+        publishCocktailRequest(state) {
+            state.loading = true;
+            state.error = null;
+        },
+        publishCocktailSuccess(state) {
+            state.loading = false;
+        },
+        publishCocktailFailure(state, action) {
+            state.loading = false;
+            state.error = action.payload;
+        },
+
+        deleteCocktailRequest(state) {
+            state.loading = true;
+            state.error = null;
+        },
+        deleteCocktailSuccess(state) {
+            state.loading = false;
+        },
+        deleteCocktailFailure(state, action) {
+            state.loading = false;
+            state.error = action.payload;
+        },
 
     }
 });
