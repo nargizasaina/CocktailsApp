@@ -21,7 +21,7 @@ import {
     publishCocktailRequest,
     publishCocktailSuccess
 } from "../actions/cocktailsActions";
-import {historyPush} from "../actions/historyActions";
+import {historyPush, historyReplace} from "../actions/historyActions";
 
 export function* fetchAllCocktails() {
     try{
@@ -59,6 +59,7 @@ export function* createCocktail({payload: cocktailData}) {
         yield axiosApi.post('/cocktails', cocktailData);
         yield put(createCocktailSuccess());
         yield put(addNotification({message: 'Cocktail is created successfully!', variant: 'success'}));
+        yield put(historyReplace('/'));
     } catch (e) {
         yield put(createCocktailFailure(e.response.data));
         yield put(addNotification({message: 'Create new Cocktail failed!', variant: 'error'}));

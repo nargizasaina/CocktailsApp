@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {fetchAllCocktailsRequest} from "../../store/actions/cocktailsActions";
 import {Link} from "react-router-dom";
 import Spinner from "../../components/UI/Spinner/Spinner";
+import {apiUrl} from "../../config";
 
 const CocktailBuilder = () => {
     const dispatch = useDispatch();
@@ -18,16 +19,16 @@ const CocktailBuilder = () => {
     return (
         loading
             ? <Spinner/>
-            : <Box display="flex" justifyContent="space-evenly">
+            : <Box display="flex" justifyContent="space-evenly" flexWrap="wrap">
                 {cocktails && cocktails.length > 1
                 ? cocktails.map(cocktail => (
                     (((user?.role === 'user' && cocktail.publish) || user?.role === 'admin') &&
-                        <Card sx={{maxWidth: 255, margin: '5px'}} key={cocktail._id}>
+                        <Card sx={{width: 250, margin: '5px'}} key={cocktail._id}>
                             <CardActionArea component={Link} to={'/cocktails/' + cocktail._id}>
                                 <CardMedia
                                     component="img"
                                     height="240"
-                                    image={cocktail.image}
+                                    image={apiUrl + '/' + cocktail.image}
                                     alt="cocktail"
                                 />
                                 <CardContent>

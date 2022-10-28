@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
-import {Button, Grid, TextareaAutosize} from "@mui/material";
+import React, {useState} from 'react';
+import {Button, Grid, TextareaAutosize, TextField} from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 import InputField from "../UI/Form/InputField/InputField";
 import FileInput from "../UI/Form/FileInput/FileInput";
-import CloseIcon from '@mui/icons-material/Close';
 
 const CocktailForm = ({onSubmit, error}) => {
   const [ingredient, setIngredient] = useState([
@@ -10,8 +10,7 @@ const CocktailForm = ({onSubmit, error}) => {
   ]);
 
   const [cocktailState, setCocktailState] = useState({
-    name: '',
-    ingredients: [],
+    title: '',
     recipe: '',
     image: '',
   });
@@ -24,6 +23,7 @@ const CocktailForm = ({onSubmit, error}) => {
       formData.append(key, cocktailState[key]);
     });
 
+    formData.append('ingredients', JSON.stringify(ingredient));
     onSubmit(formData);
   };
 
@@ -34,18 +34,6 @@ const CocktailForm = ({onSubmit, error}) => {
       return {...prevState, [name]: value};
     });
   };
-
-  useEffect(() => {
-    setCocktailState(prev => {
-      return {...prev, ingredients: ingredient}
-    });
-    setIngredient(prev => {
-      return [...prev]
-    })
-  }, [ingredient]);
-  useEffect(() => {
-
-  }, [ingredient]);
 
   const addIngredients = () => {
     setIngredient(prevState => [
@@ -65,7 +53,7 @@ const CocktailForm = ({onSubmit, error}) => {
       const ingCopy = {
         ...prev[index],
         [name]: value,
-      }
+      };
 
       return prev.map((ing, i) => {
         if (index === i) {
@@ -91,7 +79,6 @@ const CocktailForm = ({onSubmit, error}) => {
     }
   };
 
-
   return (
     <Grid
       component="form"
@@ -104,11 +91,11 @@ const CocktailForm = ({onSubmit, error}) => {
       spacing={2}
     >
       <InputField
-        label="Name"
+        label="Cocktail title"
         onChange={inputChangeHandler}
-        value={cocktailState.name}
-        name="name"
-        error={getFieldError('name')}
+        value={cocktailState.title}
+        name="title"
+        error={getFieldError('title')}
       />
       {ingredient.map((ing, index) => (
         <Grid
@@ -121,11 +108,11 @@ const CocktailForm = ({onSubmit, error}) => {
           <Grid item container xs={7}>
             <InputField
               xs={2}
-              label="Title"
+              label="Ingredient Title"
               onChange={e => inputChangeHandlerIng(e, index)}
               value={ing.title}
               name="title"
-              error={getFieldError('title')}
+              error={getFieldError('ingredients')}
             />
           </Grid>
           <Grid item container xs={4}>
@@ -134,7 +121,7 @@ const CocktailForm = ({onSubmit, error}) => {
               onChange={e => inputChangeHandlerIng(e, index)}
               value={ing.amount}
               name="amount"
-              error={getFieldError('amount')}
+              error={getFieldError('ingredients')}
             />
           </Grid>
           {ingredient.length > 1 ?
@@ -145,19 +132,28 @@ const CocktailForm = ({onSubmit, error}) => {
       ))}
 
       <Grid item>
-        <Button type="button" onClick={addIngredients}>Add ingredients</Button>
+        <Button type="button" onClick={addIngredients}>Add more ingredients</Button>
       </Grid>
 
       <Grid item xs={12}>
-        <TextareaAutosize
-          aria-label="Recipe textarea"
-          name="recipe"
-          value={cocktailState.recipe}
-          minRows={10}
-          onChange={inputChangeHandler}
-          placeholder="Your recipe"
-          style={{ width: '100%', padding: '10px', borderRadius: '5px' }}
+        <TextField
+            label="Your recipe"
+            multiline
+            rows={4}
+            value={cocktailState.recipe}
+            onChange={inputChangeHandler}
+            name="recipe"
+            fullWidth
         />
+        {/*<TextareaAutosize*/}
+        {/*  aria-label="Recipe textarea"*/}
+        {/*  name="recipe"*/}
+        {/*  value={cocktailState.recipe}*/}
+        {/*  minRows={10}*/}
+        {/*  onChange={inputChangeHandler}*/}
+        {/*  placeholder="Your recipe"*/}
+        {/*  style={{ width: '100%', padding: '10px', borderRadius: '5px' , background: 'transparent'}}*/}
+        {/*/>*/}
       </Grid>
 
       <Grid item>
@@ -172,7 +168,6 @@ const CocktailForm = ({onSubmit, error}) => {
           sx={{background: 'linear-gradient(45deg, #ce4429 30%, #aace29 90%)'}}
           type='submit'
           variant='contained'
-          // fullWidth
         >
           Create cocktail
         </Button>

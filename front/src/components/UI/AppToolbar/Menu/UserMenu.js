@@ -30,7 +30,7 @@ const UserMenu = ({user}) => {
                 </Button>
                 <Button component={Link} to="/new_cocktail" color="inherit"
                 sx={{marginRight: '20px'}}>
-                New cocktails
+                Add cocktail
                 </Button>
               </>
             }

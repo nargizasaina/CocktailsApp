@@ -3,6 +3,7 @@ import {Box, Button, Card, CardContent, CardMedia, Typography} from "@mui/materi
 import {useDispatch, useSelector} from "react-redux";
 import {deleteCocktailRequest, publishCocktailRequest} from "../../store/actions/cocktailsActions";
 import Spinner from "../UI/Spinner/Spinner";
+import {apiUrl} from "../../config";
 
 const CocktailCard = (props) => {
     const dispatch = useDispatch();
@@ -20,13 +21,13 @@ const CocktailCard = (props) => {
     return loading
             ? <Spinner/>
             : props.cocktail && (
-            <Box maxWidth="700px" margin="0 auto">
+            <Box maxWidth="700px" margin="0 auto 10px">
                 <Card>
-                    <Box sx={{ display: 'flex' }}>
+                    <Box sx={{ display: 'flex'}}>
                         <CardMedia
                             component="img"
                             sx={{ width: 250 }}
-                            image={props.cocktail.image}
+                            image={apiUrl + '/' + props.cocktail.image}
                             alt="Cocktail"
                         />
                         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -87,9 +88,15 @@ const CocktailCard = (props) => {
                         </p>
                         <Typography variant="subtitle1" color="text.primary" component="div" marginTop="10px">
                             <b>
-                                Rating: {props.cocktail.ratings.reduce((prev, curr) => (prev.rating + curr.rating) / props.cocktail.ratings.length)}
+                            Rating: {props.cocktail.ratings.length > 0 &&
+                                props.cocktail.ratings.reduce((prev, curr) => (prev.rating + curr.rating) / props.cocktail.ratings.length)}
                             </b> ({props.cocktail.ratings.length} votes)
                         </Typography>
+                        {user?.role === 'admin' &&
+                            <Typography variant="subtitle1" color="text.secondary" component="div" marginTop="10px">
+                                Cocktail was added by: {props.cocktail.addedBy.displayName}
+                            </Typography>
+                        }
                     </Box>
                 </Card>
             </Box>

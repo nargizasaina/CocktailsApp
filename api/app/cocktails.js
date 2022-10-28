@@ -103,7 +103,7 @@ router.post('/' , auth, upload.single('image'), async (req, res) => {
   const cocktailData = {
     title,
     recipe,
-    ingredients,
+    ingredients: JSON.parse(ingredients),
     image: `uploads/${req.file.filename}`,
     addedBy: req.user._id
   };
