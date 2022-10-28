@@ -29,13 +29,13 @@ const CocktailBuilder = () => {
                             <Typography gutterBottom variant="h5" component="div">
                                 {cocktail.title}
                             </Typography>
+                            {user?.role === 'admin' && !cocktail.publish &&
+                                <Typography sx={{ fontSize: 12 }} variant="body2" color="text.secondary">
+                                    Unpublished yet!
+                                </Typography>
+                            }
                         </CardContent>
                     </CardActionArea>
-                    {user?.role === 'admin' && !cocktail.publish &&
-                        <Typography sx={{ fontSize: 12 }} variant="body2" color="text.secondary">
-                            Unpublished!
-                        </Typography>
-                    }
                 </Card> )
             ))}
         </Box>

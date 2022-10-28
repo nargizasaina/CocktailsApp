@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {fetchMyCocktailsRequest} from "../../store/actions/cocktailsActions";
+import CocktailCard from "../../components/CocktailCard/CocktailCard";
 
 const MyCocktails = () => {
     const dispatch = useDispatch();
@@ -10,11 +11,12 @@ const MyCocktails = () => {
         dispatch(fetchMyCocktailsRequest());
     }, [dispatch]);
 
-    return (
-        <div>
-            
-        </div>
-    );
+    return cocktails.map(cocktail => (
+            <CocktailCard
+                key={cocktail._id}
+                cocktail={cocktail}
+            />
+    ));
 };
 
 export default MyCocktails;

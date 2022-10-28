@@ -1,8 +1,11 @@
 import React from 'react';
 import {Box, Button, Card, CardContent, CardMedia, Typography} from "@mui/material";
+import {useSelector} from "react-redux";
 
 const CocktailCard = (props) => {
-    return (
+    const user = useSelector(state => state.users.user);
+
+    return props.cocktail && (
         <Box maxWidth="700px" margin="0 auto">
             <Card>
                 <Box sx={{ display: 'flex' }}>
@@ -29,17 +32,19 @@ const CocktailCard = (props) => {
                             </ul>
                         </CardContent>
                     </Box>
-                    {props.user?.role === 'admin' &&
-                        <Box alignSelf="flex-end">
-                            {props.user?.role === 'admin' && !props.cocktail.publish &&
+                    {user?.role === 'admin' &&
+                        <Box alignSelf="flex-start" marginLeft="auto" marginRight="5px">
+                            {!props.cocktail.publish &&
                                 <>
                                     <Typography variant="subtitle1" color="text.secondary" component="div" marginTop="10px">
                                         Unpublished!
                                     </Typography>
-                                    <Button type="button" color="success">Publish</Button>
+                                    <Button fullWidth type="button" color="success" variant="contained" >Publish</Button>
                                 </>
                             }
-                            <Button type="button" color="error">Delete</Button>
+                            <Box marginTop="15px">
+                                <Button fullWidth type="button" color="error" variant="contained">Delete</Button>
+                            </Box>
                         </Box>
                     }
                 </Box>

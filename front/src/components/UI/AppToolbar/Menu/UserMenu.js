@@ -22,7 +22,7 @@ const UserMenu = ({user}) => {
 
     return (
         <Box display="flex" justifyContent="space-between" alignItems="center" paddingTop={1}>
-            {user.role === 'user' &&
+            {user &&
               <>
                 <Button component={Link} to="/my_cocktails" color="inherit"
                         sx={{marginRight: '20px'}}>
