@@ -92,6 +92,7 @@ const CocktailForm = ({onSubmit, error}) => {
     >
       <InputField
         label="Cocktail title"
+        required={true}
         onChange={inputChangeHandler}
         value={cocktailState.title}
         name="title"
@@ -138,6 +139,7 @@ const CocktailForm = ({onSubmit, error}) => {
       <Grid item xs={12}>
         <TextField
             label="Your recipe"
+            required={true}
             multiline
             rows={4}
             value={cocktailState.recipe}

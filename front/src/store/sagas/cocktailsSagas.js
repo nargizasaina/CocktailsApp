@@ -57,7 +57,7 @@ export function* createCocktail({payload: cocktailData}) {
     try {
         yield axiosApi.post('/cocktails', cocktailData);
         yield put(createCocktailSuccess());
-        yield put(addNotification({message: 'Cocktail is created successfully!', variant: 'success'}));
+        yield put(addNotification({message: 'Cocktail is created successfully! Will published by moderator.', variant: 'success'}));
         yield put(historyReplace('/'));
     } catch (e) {
         yield put(createCocktailFailure(e.response.data));
