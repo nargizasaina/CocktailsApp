@@ -49,7 +49,7 @@ const CocktailCard = ({cocktail, rating}) => {
                         </Box>
                         {user?.role === 'admin' &&
                             <Box alignSelf="flex-start" marginLeft="auto" marginRight="5px">
-                                {cocktail.publish &&
+                                {!cocktail.publish &&
                                     <>
                                         <Typography variant="subtitle1" color="text.secondary" component="div" marginTop="10px">
                                             Unpublished!
